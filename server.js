@@ -16,24 +16,16 @@ app.post('/RunWebScrapping',function(req,res){
   // var user_name=req.body.user;
   // var password=req.body.password;
   // console.log("web scrapping start");
-  var ddd
-  console.log(ddd)
-   WebScrapping("http://www.soccerline.co.kr/slboard/list.php?code=locker");
-
-   console.log('---------------------')
-console.log(ddd)
-  //res.send(retData);
+  GetParsingData(req,res);
 });
 
 //web srcrapping
-function WebScrapping(url){
-
-  // var url = 'http://www.soccerline.co.kr/slboard/list.php?code=locker'
+function WebScrapping(url, callback){
   var requestOptions = {encoding: null, uri: url};
 
   request(requestOptions, function(error, response, body) {
 
-    var strRetData = "123";
+    var strRetData = "";
     var utf8String = iconv.decode(body, 'euc-kr');
     var res = /content1 = "<table.*<\/table>/ig;
     var parsing = res.exec(utf8String);
@@ -44,20 +36,23 @@ function WebScrapping(url){
       $('table td a').each(function(i, elem) {
         // console.log($(this).text());
         // console.log($(this).attr('href'));
-        strRetData = strRetData+$(this).text() + "|";
-
-
+        strRetData = strRetData + $(this).text() + "|";
+        strRetData = strRetData + $(this).attr('href') + "#";
       });
       var parsing = res.exec(utf8String);
     }
-    ddd = strRetData
+
+    callback(strRetData);
 
   });
 }
-function sendeee(xx){
-  //console.log(xx)
-  //res.send("1234")
+
+function GetParsingData(req,res){
+  WebScrapping("http://www.soccerline.co.kr/slboard/list.php?code=locker",function CallBack(data){
+    res.send(data);
+  });
 }
+
 //server start
 app.listen(3000,function(){
   console.log("Started on PORT 3000");
