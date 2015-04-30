@@ -1,17 +1,36 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Simple login</title>
+    <title>soccerline</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
       $(document).ready(function(){
-        var user,pass;
-        $("#submit").click(function(){
-          user=$("#user").val();
-          pass=$("#password").val();
-          $.post("http://localhost:3000/RunWebScrapping",{user: user,password: pass}, function(data){
-            alert(data);
-          });
+        var param = {url:"http://www.soccerline.co.kr/slboard/list.php?code=locker"}
+        $.post("http://localhost:3000/RunWebScrapping",param,function(data){
+          // document.write(data);
         });
+        // var user,pass;
+        // $("#submit").click(function(){
+        //   user=$("#user").val();
+        //   pass=$("#password").val();
+        //   $.post("http://localhost:3000/RunWebScrapping",{user: user,password: pass}, function(data){
+        //     documet.write(data);
+        //   });
+        // });
+
+
+        $("#list").append("<li>3</li>");
+
+        BindingData();
+
+        function BindingData(){
+          var data = ["aaaa","bbbb","cccc"];
+
+          for(var i=0; i<data.length; i++){
+            $("#list").append("<li>3</li>");
+          }
+
+        }
       });
     </script>
   </head>
@@ -19,6 +38,8 @@
     <!-- <h1>Hello people !</h1> -->
     <!-- <input type="TEXT" id="user" size="40"><br>
     <input type="password" id="password" size="40"><br> -->
-    <input type="button" id="submit" value="Submit">
+    <!-- <input type="button" id="submit" value="Submit"> -->
+    <ul id="list">
+    </ul>
   </body>
 </html>

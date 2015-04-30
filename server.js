@@ -48,7 +48,7 @@ function WebScrapping(url, callback){
 }
 
 function GetParsingData(req,res){
-  WebScrapping("http://www.soccerline.co.kr/slboard/list.php?code=locker",function CallBack(data){
+  WebScrapping(req.body.url,function CallBack(data){
     res.send(data);
   });
 }
