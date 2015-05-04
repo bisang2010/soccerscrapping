@@ -1,45 +1,56 @@
-<!DOCTYPE html>
+<!doctype>
 <html>
   <head>
-    <title>soccerline</title>
+    <title>soccer line</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
       $(document).ready(function(){
+
         var param = {url:"http://www.soccerline.co.kr/slboard/list.php?code=locker"}
         $.post("http://localhost:3000/RunWebScrapping",param,function(data){
-          // document.write(data);
-        });
-        // var user,pass;
-        // $("#submit").click(function(){
-        //   user=$("#user").val();
-        //   pass=$("#password").val();
-        //   $.post("http://localhost:3000/RunWebScrapping",{user: user,password: pass}, function(data){
-        //     documet.write(data);
-        //   });
-        // });
 
+          //게시판분리
+          var arrCategory = data.split('@');
 
-        $("#list").append("<li>3</li>");
+          for(var i=0; i<arrCategory.length-1; i++){
 
-        BindingData();
+            //게시물분리
+            var arrContent = arrCategory[i].split('#');
 
-        function BindingData(){
-          var data = ["aaaa","bbbb","cccc"];
+            for(var j=0; j<arrContent.length-1; j++){
+              var arrTitle = arrContent[j].split('|')[0];
+              var arrContentNo = arrContent[j].split('|')[1].substr(-10);
 
-          for(var i=0; i<data.length; i++){
-            $("#list").append("<li>3</li>");
+              BindingContent(i, arrTitle, arrContentNo);
+            }
           }
+        });
 
+        function BindingContent(categoryType, contentTitle, contentNo){
+
+          if(categoryType == "0"){
+            var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/locker/view.html?uid="+contentNo+"&page=1&code=locker&keyfield=&key=&period=>"+contentTitle+"</a></li>";
+             $("#LiveBest").append(strLi);
+          }
+          else if(categoryType == "1"){
+            var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/locker/view.html?uid="+contentNo+"&page=1&code=locker&keyfield=&key=&period=>"+contentTitle+"</a></li>";
+             $("#TodayBest").append(strLi);
+          }
+          else if(categoryType == "2"){
+            var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/locker/view.html?uid="+contentNo+"&page=1&code=locker&keyfield=&key=&period=>"+contentTitle+"</a></li>";
+             $("#ReplyBest").append(strLi);
+          }
         }
+
       });
     </script>
   </head>
   <body>
-    <!-- <h1>Hello people !</h1> -->
-    <!-- <input type="TEXT" id="user" size="40"><br>
-    <input type="password" id="password" size="40"><br> -->
-    <!-- <input type="button" id="submit" value="Submit"> -->
-    <ul id="list">
+    <ul id="LiveBest">
+    </ul>
+    <ul id="TodayBest">
+    </ul>
+    <ul id="ReplyBest">
     </ul>
   </body>
 </html>

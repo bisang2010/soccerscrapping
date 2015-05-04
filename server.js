@@ -2,14 +2,22 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var request = require('request'); //https://github.com/request/request
 var iconv = require('iconv-lite');
+var express = require("express");
+var bodyParser = require("body-parser");
+var path = require('path');
 
-var express   =     require("express");
-var bodyParser  =    require("body-parser");
-var app       =     express();
+var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.get('/',function(req,res){
-  res.sendfile("index.html");
+  res.sendfile("SoccerLineMain.html");
+});
+
+app.get('/SoccerLineList',function(req,res){
+  //console.log(req.param('msg'));
+  res.sendfile("SoccerLineList.html");
 });
 
 app.post('/RunWebScrapping',function(req,res){
@@ -31,7 +39,6 @@ function WebScrapping(url, callback){
     var parsing = res.exec(utf8String);
 
     while(parsing) {
-      // console.log("\n>>>>>>>>>>>>>결과<<<<<<<<<<<<<<<<<");
       $ = cheerio.load(parsing[0]);
       $('table td a').each(function(i, elem) {
         // console.log($(this).text());
@@ -39,6 +46,7 @@ function WebScrapping(url, callback){
         strRetData = strRetData + $(this).text() + "|";
         strRetData = strRetData + $(this).attr('href') + "#";
       });
+      strRetData = strRetData + "@";
       var parsing = res.exec(utf8String);
     }
 

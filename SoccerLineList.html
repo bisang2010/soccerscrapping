@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta id="viewport" name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+	<title>soccer line</title>
+	<link rel="stylesheet" type="text/css" href="Path/Css/LayOut.css" />
+	<link rel="stylesheet" type="text/css" href="Path/Css/Form.css" />
+	<link rel="stylesheet" type="text/css" href="Path/Css/Contents.css" />
+	<script type="text/javascript" src="Path/Js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="Path/Js/jquery-ui-1.9.2.ui-custom.js"></script>
+	<script type="text/javascript" src="Path/Js/jquery.ezmark.min.js"></script>
+	<script type="text/javascript" src="Path/Js/common.js"></script>
+	<!--[if lt IE 9]><script type="text/javascript" src="Path/Js/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+
+		  var category = getUrlParameter('category');
+			var param = {url:getWebScrappingUrl(category)}
+
+			//192.168.0.3
+			$.post("http://"+location.host+"/RunWebScrapping",param,function(data){
+
+				//게시판분리
+				var arrCategory = data.split('@');
+
+				for(var i=0; i<arrCategory.length-1; i++){
+
+					//게시물분리
+					var arrContent = arrCategory[i].split('#');
+
+					for(var j=0; j<arrContent.length-1; j++){
+						var arrTitle =(j+1) + ". " + arrContent[j].split('|')[0];
+						var arrContentNo = arrContent[j].split('|')[1].substr(-10);
+
+						BindingContent(i, arrTitle, arrContentNo);
+					}
+				}
+			});
+
+			function BindingContent(categoryType, contentTitle, contentNo){
+
+				if(categoryType == "0"){
+					var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/totalboard/view.html?uid="+contentNo+"&page=2&code=totalboard&keyfield=&key=&period=><div class='text'>"+contentTitle+"</div><span class='ico ico_arrow'>자세히 보기</span></a></li>";
+					$("#LiveBest").append(strLi);
+				}
+				else if(categoryType == "1"){
+					var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/totalboard/view.html?uid="+contentNo+"&page=1&code=totalboard&keyfield=&key=&period=><div class='text'>"+contentTitle+"</div><span class='ico ico_arrow'>자세히 보기</span></a></li>";
+					$("#TodayBest").append(strLi);
+				}
+				else if(categoryType == "2"){
+					var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/totalboard/view.html?uid="+contentNo+"&page=1&code=totalboard&keyfield=&key=&period=><div class='text'>"+contentTitle+"</div><span class='ico ico_arrow'>자세히 보기</span></a></li>";
+					$("#ReplyBest").append(strLi);
+				}
+			}
+
+			function getUrlParameter(sParam) {
+				var sPageURL = window.location.search.substring(1);
+				var sURLVariables = sPageURL.split('&');
+
+				for (var i = 0; i < sURLVariables.length; i++) {
+					var sParameterName = sURLVariables[i].split('=');
+					if (sParameterName[0] == sParam) {
+						return sParameterName[1];
+					}
+				}
+			}
+
+			function getWebScrappingUrl(category){
+
+				var objTitle = document.getElementById('main_title');
+
+				if(category == "1"){//해외축구
+					objTitle.innerHTML = "해외축구게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=soccerboard";
+				}
+				else if(category == "2"){//국내축구
+					objTitle.innerHTML = "국내축구게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=kookdaeboard";
+				}
+				else if(category == "3"){//축구동영상
+					objTitle.innerHTML = "축구동영상게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=soccermingboard";
+				}
+				else if(category == "4"){//축구칼럼
+					objTitle.innerHTML = "축구칼럼게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=columnboard";
+				}
+				else if(category == "5"){//축구추천
+					objTitle.innerHTML = "축구추천게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=recomboard";
+				}
+				else if(category == "6"){//라커룸
+					objTitle.innerHTML = "라커룸(자유)게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=locker"
+				}
+				else if(category == "7"){//동영상
+					objTitle.innerHTML = "동영상게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=streamingboard";
+				}
+				else if(category == "8"){//게임
+					objTitle.innerHTML = "게임게시판";
+					return "http://www.soccerline.co.kr/slboard/list.php?code=gameboard";
+				}
+				else {
+					return "";
+				}
+			}
+
+		});
+	</script>
+</head>
+<body>
+    <header class="headerWrap">
+        <div class="logo">
+            <a href="/">
+                <img class="img logo" src="Path/Img/Common/logo.gif" />
+            </a>
+        </div>
+        <div>
+            <h1 id="main_title"></h1>
+						<div class="btnLeft">
+							<a href="/" class="btn home"><span>홈</span></a>
+						</div>
+        </div>
+    </header>
+    <section id="section">
+        <div class="contents">
+						<h3>실시간 베스트</h3>
+            <div>
+                <ul id="LiveBest" class="list">
+                </ul>
+            </div>
+						<br/>
+						<h3>Today 베스트</h3>
+						<div>
+								<ul id="TodayBest" class="list">
+								</ul>
+						</div>
+						<br/>
+						<h3>댓글 베스트</h3>
+						<div>
+								<ul id="ReplyBest" class="list">
+								</ul>
+						</div>
+        </div>
+    </section>
+    <footer>
+        <address>
+            <ul>
+				<li> | 문의 및 개선 : bisang2010@gmail.com | </li>
+			</ul>
+            <p class="fright">Copyright bisang2010 corp. All rights reserved.</p>
+        </address>
+    </footer>
+</body>
+</html>
