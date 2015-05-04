@@ -62,6 +62,6 @@ function GetParsingData(req,res){
 }
 
 //server start
-app.listen(3000,function(){
-  console.log("Started on PORT 3000");
+app.listen(7778,function(){
+  console.log("Started on PORT 7778");
 })
