@@ -1,16 +1,14 @@
 ﻿@charset "utf-8";
 
-
-.Mainlist{border:1px solid #D9D9D9; margin-top:10px;}
-.Mainlist li{	border-top:1px solid #d9d9d9; overflow:hidden; position:relative; padding: 7px 0px 5px 10px; min-height:30px; text-align:center; font-weight:bold; font-size:13pt;}
+.Mainlist{border:1px solid #D9D9D9; margin-top:5px;}
+.Mainlist li{	border-top:1px solid #d9d9d9; overflow:hidden; position:relative; min-height:30px; text-align:center; font-weight:bold; font-size:13pt;}
 .Mainlist li:first-child{	border-top:0;}
-.Mainlist li a {display:block;}
+.Mainlist li a {display:block; height:100%; padding: 7px 0px 7px 10px;}
 
-
-.list{border:1px solid #D9D9D9; margin-top:10px;}
-.list li{	border-top:1px solid #d9d9d9; overflow:hidden; position:relative; padding: 10px 0px 5px 10px; min-height:25px;}
+.list{border:1px solid #D9D9D9; margin-top:5px;}
+.list li{	border-top:1px solid #d9d9d9; overflow:hidden; position:relative; min-height:25px;}
 .list li:first-child{	border-top:0;}
-.list li a {display:block;}
+.list li a {display:block; height:100%; padding: 10px 0px 10px 10px;}
 .list li span.ico_arrow
 {
 	position:absolute; top:12px; right:10px; width:9px; height:15px;
@@ -21,13 +19,13 @@
 }
 .list  li span.photo {position:absolute; top:5px; left:5px; width:54px; height:72px; }
 .list li span.photo img {width:54px; height:72px;}
-	.list li div.text
-	{
-		font-size: 12px;
-		color: #666666;
-		padding-right: 27px;
-		font-weight:bold;
-	}
+.list li div.text
+{
+	font-size: 12px;
+	color: #666666;
+	padding-right: 27px;
+	font-weight:bold;
+}
 .list li div.text p {/*overflow:hidden; white-space:nowrap; text-overflow:ellipsis; -o-text-overflow: ellipsis; */}
 .list li div.text p.tit {font-weight:bold; font-size:14px; color:#333333; padding:0 ;}
 .list li div.text p.part {font-weight:bold; color:#333333;}
@@ -35,10 +33,10 @@
 .box_list {background-color:#f2f2f2; padding:10px 8px; color:#7e7e7e; margin-top:10px; font-size:12px;}
 .box_list.first {margin-top:0}
 .box_list a {color:#7e7e7e;}
-	.box_list h1
-	{
-		padding-bottom:10px; color:#00509a;
-	}
+.box_list h1
+{
+	padding-bottom:10px; color:#00509a;
+}
 
 /* ul */
 .ul_arrow li {margin-top:15px; padding-left:7px; line-height:15px; background: url(../Img/Common/blt_list_arrow.gif) no-repeat left 8px;}
