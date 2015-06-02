@@ -13,52 +13,51 @@
 	<script type="text/javascript" src="Path/Js/common.js"></script>
 	<!--[if lt IE 9]><script type="text/javascript" src="Path/Js/html5.js"></script><![endif]-->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script>   
-	    
+	<script>
+
 	    var _page = 1; //추가페이지 시작점
-	    
+
 		$(document).ready(function(){
 		    document.getElementById('main_title').innerHTML = "최신글(모음)게시판";
-		    
+
 		    BindingNewList(_page);
 		});
-		
+
 	    function BindingContent(contentTitle, contentNo){
-	    
+
 				var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/totalboard/view.html?uid="+contentNo+"&page=1&code=totalboard&keyfield=&key=&period=><div class='text'>"+contentTitle+"</div><span class='ico ico_arrow'>자세히 보기</span></a></li>";
 				$("#NewList").append(strLi);
-		
+
 		}
-		
+
 		function BindingNewList(page){
 
 		    var parsingURL = "http://www.soccerline.co.kr/slboard/list.php?page="+page+"&code=totalboard&keyfield=&key=&period=&";
 		    var param = {url:parsingURL}
 
 			$.post("http://"+location.host+"/RunNewListWebScrapping",param,function(data){
-		
+
 				//게시물분리
 				var arrContent = data.split('#');
 
 				for(var j=0; j<arrContent.length-1; j++){
 					var arrTitle = j+1+(25*(page-1)) + "." + arrContent[j].split('|')[0];
 					var arrContentNo = arrContent[j].split('|')[1].split('&')[0].substr(-10);
-                    
+
 					BindingContent(arrTitle, arrContentNo);
 			    }
 			});
-			
-			_page = _page + 1;	 
-		}
-		
+
+			_page = _page + 1;
+		}s
+
 		//
 		// onclick btn add
 		//
 		function OnBtnAdd(){
 		    BindingNewList(_page);
-		    _page = _page + 1;	    
 		}
-			
+
 	</script>
 </head>
 <body>
