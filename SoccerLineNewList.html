@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta id="viewport" name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+	<title>soccer line</title>
+	<link rel="stylesheet" type="text/css" href="Path/Css/LayOut.css" />
+	<link rel="stylesheet" type="text/css" href="Path/Css/Form.css" />
+	<link rel="stylesheet" type="text/css" href="Path/Css/Contents.css" />
+	<script type="text/javascript" src="Path/Js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="Path/Js/jquery-ui-1.9.2.ui-custom.js"></script>
+	<script type="text/javascript" src="Path/Js/jquery.ezmark.min.js"></script>
+	<script type="text/javascript" src="Path/Js/common.js"></script>
+	<!--[if lt IE 9]><script type="text/javascript" src="Path/Js/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>   
+	    
+	    var _page = 1; //추가페이지 시작점
+	    
+		$(document).ready(function(){
+		    document.getElementById('main_title').innerHTML = "최신글(모음)게시판";
+		    
+		    BindingNewList(_page);
+		});
+		
+	    function BindingContent(contentTitle, contentNo){
+	    
+				var strLi = "<li><a href=http://m.soccerline.co.kr/bbs/totalboard/view.html?uid="+contentNo+"&page=1&code=totalboard&keyfield=&key=&period=><div class='text'>"+contentTitle+"</div><span class='ico ico_arrow'>자세히 보기</span></a></li>";
+				$("#NewList").append(strLi);
+		
+		}
+		
+		function BindingNewList(page){
+
+		    var parsingURL = "http://www.soccerline.co.kr/slboard/list.php?page="+page+"&code=totalboard&keyfield=&key=&period=&";
+		    var param = {url:parsingURL}
+
+			$.post("http://"+location.host+"/RunNewListWebScrapping",param,function(data){
+		
+				//게시물분리
+				var arrContent = data.split('#');
+
+				for(var j=0; j<arrContent.length-1; j++){
+					var arrTitle = j+1+(25*(page-1)) + "." + arrContent[j].split('|')[0];
+					var arrContentNo = arrContent[j].split('|')[1].split('&')[0].substr(-10);
+                    
+					BindingContent(arrTitle, arrContentNo);
+			    }
+			});
+			
+			_page = _page + 1;	 
+		}
+		
+		//
+		// onclick btn add
+		//
+		function OnBtnAdd(){
+		    BindingNewList(_page);
+		    _page = _page + 1;	    
+		}
+			
+	</script>
+</head>
+<body>
+    <header class="headerWrap">
+        <!-- <div class="logo">
+        <a href="/">
+        <img class="img logo" src="Path/Img/Common/logo.gif" />
+        </a>
+        </div> -->
+        <div>
+            <h1 id="main_title"></h1>
+            <div class="btnLeft">
+                <a href="/" class="btn home"><span>홈</span></a>
+            </div>
+        </div>
+    </header>
+    <h1 id="main_title"></h1>
+    <section id="section">
+        <div class="contents">
+            <div>
+                <ul id="NewList" class="list">
+                </ul>
+            </div>
+            <input type="button" id="btnAdd" style="width:100%;height:50px;font-weight:bold; margin-top:15px;" onclick="OnBtnAdd()" value="더보기">
+        </div>
+    </section>
+    <footer>
+        <address>
+            <ul>
+                <li> | 문의 및 개선 : bisang2010@gmail.com | </li>
+            </ul>
+            <p class="fright">Copyright bisang2010 corp. All rights reserved.</p>
+        </address>
+    </footer>
+</body>
+</html>
